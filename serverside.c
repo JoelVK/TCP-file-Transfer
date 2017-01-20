@@ -2,8 +2,10 @@
 #include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-int main( int argc, char *argv){
+int main( int argc, char **argv){
 	int sockfd = socket(AF_INET,SOCK_STREAM,0);
 
 	printf("enter the port number: \n");
@@ -19,14 +21,23 @@ int main( int argc, char *argv){
 	listen(sockfd,10);
 
 	while(1) {
-		int len = sizeof(clientaddr);
+		socklen_t len = sizeof(clientaddr);
 		int clientsocket = accept(sockfd,(struct sockaddr*)&clientaddr,&len);
+		printf("Client has connected...\n");
 		char line[5000];
 		recv(clientsocket,line,5000,0);
-		printf("got from client: %s\n",line);
-
-		send(clientsocket,line,(strlen(line)+1),0);
-
+		FILE* file = fopen(line, "r");
+		if(file == NULL){		  
+		  send(clientsocket,"N", 1, 0); 
+		} else {
+		  send(clientsocket,"Y", 1, 0); 
+		  char dataBuf[128];
+		  int numBytesRead = 0;
+		  while((numBytesRead = fread(dataBuf, 1, sizeof(dataBuf),file)) > 0){
+      		    send(clientsocket,dataBuf,numBytesRead,0);
+		  }
+		}
+		
 		close(clientsocket);
 	}	
 		
