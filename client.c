@@ -37,7 +37,7 @@ int main (int argc, char** argv) {
 	char line2[5000];
 	recv(sockfd,line2,5000,0);
 	printf("got from server: %s\n", line2);
-	close(sockfd);
+
 	return 0;
 }
 
