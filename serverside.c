@@ -1,3 +1,12 @@
+/*
+ * Michael Brecker
+ * Joel Vander Klipp
+ * CIS 457 TCP File Transfer Project
+ * 1/24/1
+ *
+ * Description: This is the server side of the TCP file transfer.
+ */
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -11,7 +20,12 @@ int main( int argc, char **argv){
 	printf("enter the port number: \n");
 	char portnum[6];
 	fgets(portnum,6,stdin);
-	
+	int num = atoi(portnum);
+	if(num < 1024 || num > 49151){
+	  printf("Invalid port number\n");
+	  exit(1);
+	}
+
 	struct sockaddr_in serveraddr, clientaddr;
 	serveraddr.sin_family=AF_INET;
 	serveraddr.sin_port=htons(atoi(portnum));
