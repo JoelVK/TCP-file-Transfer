@@ -1,7 +1,7 @@
 all: server client
 
 server: serverside.c
-	gcc -Wall serverside.c -o server
+	gcc -Wall -lpthread serverside.c -o server
 
 client: client.c
-	gcc -Wall client.c -o client
+	gcc -Wall -lpthread client.c -o client
