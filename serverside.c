@@ -57,10 +57,20 @@ void* clienthandler(void* arg){
             if(file == NULL){		  
 	            send(clientsocket,"N", 1, 0); 
 	        } else {
+
 	            send(clientsocket,"Y", 1, 0); 
 	            char dataBuf[128];
 	            int numBytesRead = 0;
-	        
+                int size;
+                uint32_t sendSize;
+                
+                //get size of file in bytes
+                fseek(file,0,SEEK_END);
+                size = ftell(file);
+                fseek(file,0,SEEK_SET);
+	            
+                sendSize = htonl(size);
+                send(clientsocket,&sendSize,sizeof(sendSize),0);
                 while((numBytesRead = fread(dataBuf, 1, sizeof(dataBuf),file)) > 0){
 	                printf("Sending packet with %d bytes\n", numBytesRead);
 	                send(clientsocket,dataBuf,numBytesRead,0);
