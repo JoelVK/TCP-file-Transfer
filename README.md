@@ -9,4 +9,6 @@ Authors: Joel Vander Klipp, Michael Brecker
 
 Current work to do:
  1. client needs to not exit on entering invalid port number mayber server too?
- 2. lots of others i cant remember at the moment, will update 02/05 after work
+ 2. should server report every packet sent with size? fills up screen with large files
+ 3. should client still print out data being received? doent make sense for data other than plain text
+ 4. should the server have a means of quitting by a message like the client does or do we want to leave it as ^C quit only
